@@ -1,0 +1,23 @@
+<!-- templates/biblioteca/eliminar_categoria.html -->
+
+{% extends 'biblioteca/base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Categoría: {{ categoria.nombre }}{% endblock %}
+
+{% block content %}
+<div class="card mt-4">
+    <div class="card-header">
+        <h2>Eliminar Categoría</h2>
+    </div>
+    <div class="card-body">
+        <p>¿Estás seguro de que deseas eliminar la categoría <strong>{{ categoria.nombre }}</strong>?</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+            <a href="{% url 'lista_categorias' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

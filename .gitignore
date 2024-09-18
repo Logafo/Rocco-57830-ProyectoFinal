@@ -1,0 +1,39 @@
+#.gitignore
+
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+*.pyd
+__pycache__/
+staticfiles/
+runtime.txt
+start.sh
+Dockerfile
+#procfile
+.env
+db.sqlite3
+
+# VS Code
+.vscode/
+.idea/
+
+# Python virtual environment
+venv/
+env/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+*.bak
+
+# Otros
+*.swp

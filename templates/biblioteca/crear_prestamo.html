@@ -1,0 +1,45 @@
+<!-- templates/biblioteca/crear_prestamo.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Editar Préstamo
+    {% else %}
+        Crear Préstamo
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>
+        {% if form.instance.pk %}
+            Editar Préstamo
+        {% else %}
+            Crear Préstamo
+        {% endif %}
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger">{{ field.errors }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+                Actualizar Préstamo
+            {% else %}
+                Registrar Préstamo
+            {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

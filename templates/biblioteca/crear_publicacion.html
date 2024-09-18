@@ -1,0 +1,73 @@
+<!-- templates/biblioteca/crear_publicacion.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Editar Publicación
+    {% else %}
+        Crear una Nueva Publicación
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>
+        {% if form.instance.pk %}
+            Editar Publicación
+        {% else %}
+            Crear una Nueva Publicación
+        {% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            {% if field.name == 'imagen' %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    <!-- Mostrar la imagen cargada si existe -->
+                    {% if form.instance.imagen %}
+                        <div class="mb-3">
+                            <img src="{{ form.instance.imagen.url }}" alt="Imagen de Publicación" class="img-thumbnail" width="150">
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Solo permitir a los superusuarios modificar la imagen -->
+                    {% if user.is_superuser %}
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger">{{ field.errors }}</div>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    {% else %}
+                        <p>No tienes permisos para cambiar la imagen.</p>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">{{ field.errors }}</div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+                Actualizar Publicación
+            {% else %}
+                Registrar Publicación
+            {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

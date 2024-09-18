@@ -1,0 +1,38 @@
+{% extends 'biblioteca/base.html' %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <!-- Título principal de la página de inicio -->
+    <h2>Bienvenido/a a la Biblioteca Central</h2>
+
+    <!-- Descripción sobre la biblioteca -->
+    <p>La Biblioteca Central es un espacio dedicado al fomento de la lectura y el conocimiento. Ofrecemos una amplia colección de libros de diferentes géneros y autores, espacios de estudio cómodos, y actividades culturales para todas las edades.</p>
+
+    <!-- Imagen flotante a la derecha -->
+    <img src="{% static 'biblioteca.jpg' %}" alt="Imagen de la Biblioteca" class="img-fluid float-right ml-4" style="max-width: 350px;">
+
+    <!-- Información sobre el blog -->
+    <p>En nuestro blog, compartimos reseñas de libros, noticias literarias, y artículos de interés para nuestra comunidad lectora. Te invitamos a participar y compartir tus opiniones.</p>
+
+    <!-- Información de contacto y horarios -->
+    <p><strong>Dirección:</strong> Calle Avenida de los Sueños, número 456, Puerto Arcano</p>
+    <p><strong>Horarios de atención:</strong></p>
+    <ul>
+        <li>Lunes a Viernes: 9:00 AM - 8:00 PM</li>
+        <li>Sábados: 10:00 AM - 6:00 PM</li>
+        <li>Domingos y festivos: Cerrado</li>
+    </ul>
+
+    <!-- Próximos eventos -->
+    <h3>Próximos Eventos</h3>
+    <ul>
+        <li>Club de lectura: Todos los miércoles a las 6:00 PM</li>
+        <li>Taller de escritura creativa: Sábado 15 de octubre</li>
+        <li>Exposición de arte local: Del 1 al 30 de noviembre</li>
+    </ul>
+    
+</div>
+{% endblock %}

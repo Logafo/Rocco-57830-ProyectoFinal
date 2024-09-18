@@ -1,0 +1,28 @@
+<!-- templates/biblioteca/lista_publicaciones.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Publicaciones{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Publicaciones</h2>
+    {% if publicaciones %}
+        <div class="list-group">
+            {% for publicacion in publicaciones %}
+                <div class="list-group-item">
+                    <h5 class="mb-1">{{ publicacion.titulo }}</h5>
+                    <p class="mb-1">{{ publicacion.subtitulo }}</p>
+                    <small>Por {{ publicacion.autor.username }} el {{ publicacion.fecha|date:"d M Y" }}</small>
+                    <a href="{% url 'detalle_publicacion' publicacion.pk %}" class="btn btn-primary btn-sm mt-2">Leer más</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No hay publicaciones aún.</p>
+    {% endif %}
+    {% if user.is_staff %}
+        <a href="{% url 'crear_publicacion' %}" class="btn btn-success mt-3">Crear Nueva Publicación</a>
+    {% endif %}
+</div>
+{% endblock %}

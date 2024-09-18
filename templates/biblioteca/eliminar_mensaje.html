@@ -1,0 +1,21 @@
+<!-- templates/biblioteca/eliminar_mensaje.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Eliminar Mensaje{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Eliminar Mensaje</h2>
+    <p>¿Estás seguro de que deseas eliminar este mensaje?</p>
+    <p><strong>Asunto:</strong> {{ mensaje.asunto }}</p>
+    <p><strong>De:</strong> {{ mensaje.remitente.username }}</p>
+    <p><strong>Para:</strong> {{ mensaje.destinatario.username }}</p>
+    <p><strong>Cuerpo:</strong> {{ mensaje.cuerpo }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'lista_mensajes' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

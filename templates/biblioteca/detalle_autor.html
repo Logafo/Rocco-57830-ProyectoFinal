@@ -1,0 +1,25 @@
+<!-- templates/biblioteca/detalle_autor.html -->
+
+{% extends 'biblioteca/base.html' %}
+{% load static %}
+
+{% block title %}Detalle del Autor: {{ autor.nombre }}{% endblock %}
+
+{% block content %}
+<div class="card mt-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>Detalle del Autor</h2>
+        <a href="{% url 'lista_autores' %}" class="btn btn-secondary">Volver a Lista de Autores</a>
+    </div>
+    <div class="card-body">
+        <h3>{{ autor.nombre }}</h3>
+        <p><strong>Nacionalidad:</strong> {{ autor.nacionalidad }}</p>
+        <p><strong>Fecha de Nacimiento:</strong> {{ autor.fecha_nacimiento|date:"d/m/Y" }}</p>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'editar_autor' autor.pk %}" class="btn btn-warning">Editar</a>
+            <a href="{% url 'eliminar_autor' autor.pk %}" class="btn btn-danger">Eliminar</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

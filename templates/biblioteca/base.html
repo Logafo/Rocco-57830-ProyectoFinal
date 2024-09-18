@@ -1,0 +1,107 @@
+<!-- templates/biblioteca/base.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Añadido para responsividad -->
+    <title>{% block title %}Mi Biblioteca{% endblock %}</title>
+    <!-- Enlace a Bootstrap 4 desde CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Enlace al archivo CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}">
+
+<!-- Meta Tags para SEO y Redes Sociales -->
+<meta property="og:title" content="mi_biblioteca - Gestión de Biblioteca" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://rocco-57830-proyectofinal-production.up.railway.app/" />
+<meta property="og:image" content="https://i.imgur.com/AN6XRSk.jpeg" />
+<meta property="og:description" content="mi_biblioteca es una aplicación web desarrollada con Django que permite gestionar una biblioteca personal o comunitaria. Administra autores, libros, categorías, préstamos y publicaciones de blog relacionadas con la lectura." />
+<meta property="og:locale" content="es_ES" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="mi_biblioteca - Gestión de Bibliotecas" />
+<meta name="twitter:description" content="Descubre mi_biblioteca, una plataforma desarrollada con Django para gestionar autores, libros, categorías, préstamos y más en tu biblioteca personal o comunitaria." />
+<meta name="twitter:image" content="https://i.imgur.com/AN6XRSk.jpeg" />
+
+</head>
+<body>
+    <!-- Rectángulo azul detrás del navbar -->
+    <div class="blue-overlay"></div>
+
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- Logo integrado dentro del navbar -->
+            <a class="navbar-brand" href="{% url 'inicio' %}">
+                <img src="{% static 'input.png' %}" alt="Logo de la Biblioteca" class="logo">
+            </a>
+            <!-- Botón para móviles -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú de navegación -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Acerca de mí</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_publicaciones' %}">Publicaciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_libros' %}">Libros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_autores' %}">Autores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_categorias' %}">Categorías</a></li>
+                    
+                    <!-- Botón de Préstamos solo para usuarios staff -->
+                    {% if user.is_authenticated and user.is_staff %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'lista_prestamos' %}">Préstamos</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if mensajes_no_leidos > 0 %}font-weight-bold{% endif %}" href="{% url 'lista_mensajes' %}">Mensajes</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- Botón de cerrar sesión con clase nav-link para mantener el estilo uniforme -->
+                            <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn-link" style="border: none; background: none;">Cerrar Sesión</button>
+                            </form>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ml-2">
+                            <span class="navbar-text"><strong>{{ user.username }}</strong></span>
+                            {% if user.perfil.imagen %}
+                                <img src="{{ user.perfil.imagen.url }}" alt="Imagen de Perfil" class="navbar-profile-image ml-2">
+                            {% endif %}
+                        </li>                        
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Registrarse</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mostrar mensajes de Django -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <main class="container main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

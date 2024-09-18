@@ -1,0 +1,42 @@
+<!-- templates/biblioteca/lista_libros.html -->
+
+{% extends 'biblioteca/base.html' %}
+{% load static %}
+{% load form_tags %}
+
+{% block title %}Lista de Libros{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Lista de Libros</h2>
+    <form method="get" class="form-inline mb-3">
+        <div class="form-group mr-2">
+            {{ form.criterio.label_tag }}
+            {{ form.criterio|add_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+    {% if user.is_authenticated %}
+        <a href="{% url 'crear_libro' %}" class="btn btn-success mb-3">Crear Nuevo Libro</a>
+    {% endif %}
+    <div class="list-group">
+        {% for libro in libros %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">{{ libro.titulo }}</h5>
+                    <p class="mb-1">{{ libro.autor.nombre }} - {{ libro.categoria.nombre }}</p>
+                </div>
+                <div>
+                    <a href="{% url 'detalle_libro' libro.pk %}" class="btn btn-info btn-sm mr-2">Ver</a> <!-- Botón Ver -->
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'editar_libro' libro.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'eliminar_libro' libro.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="list-group-item">No hay libros disponibles.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

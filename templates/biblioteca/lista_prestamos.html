@@ -1,0 +1,60 @@
+<!-- templates/biblioteca/lista_prestamos.html -->
+
+{% extends 'biblioteca/base.html' %}
+{% load static %}
+{% load form_tags %}  <!-- Cargar los filtros personalizados -->
+
+{% block title %}Lista de Préstamos{% endblock %}
+
+{% block content %}
+<div class="card mt-4">
+    <!-- Encabezado de la tarjeta con título y botón para registrar un préstamo -->
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>Lista de Préstamos</h2>
+        <!-- Botón para registrar un nuevo préstamo -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'crear_prestamo' %}" class="btn btn-primary">Registrar Préstamo</a>
+        {% endif %}
+    </div>
+
+    <!-- Cuerpo de la tarjeta con el formulario de búsqueda y la lista de préstamos -->
+    <div class="card-body">
+        <!-- Formulario de búsqueda -->
+        <form method="get" class="form-inline mb-3">
+            <div class="form-group mr-2">
+                {{ form.criterio.label_tag }}
+                {{ form.criterio|add_class:"form-control" }}
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+
+        {% if prestamos %}
+            <!-- Lista de préstamos -->
+            <ul class="list-group">
+            {% for prestamo in prestamos %}
+                <!-- Elemento de la lista para cada préstamo -->
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <!-- Muestra el título del libro prestado, a quién fue prestado, y las fechas de préstamo y devolución -->
+                    <div>
+                        <strong>{{ prestamo.libro.titulo }}</strong>
+                        - prestado a {{ prestamo.nombre }} ({{ prestamo.cedula }}) desde el {{ prestamo.fecha_prestamo|date:"j" }} de {{ prestamo.fecha_prestamo|date:"F" }} de {{ prestamo.fecha_prestamo|date:"Y" }} hasta el {{ prestamo.fecha_devolucion|date:"j" }} de {{ prestamo.fecha_devolucion|date:"F" }} de {{ prestamo.fecha_devolucion|date:"Y" }}
+                    </div>
+                    <div>
+                        <!-- Botón Ver para acceder al detalle del préstamo -->
+                        <a href="{% url 'detalle_prestamo' prestamo.id %}" class="btn btn-info btn-sm">Ver</a>
+                        {% if user.is_authenticated %}
+                            <!-- Botones para editar o eliminar el préstamo -->
+                            <a href="{% url 'editar_prestamo' prestamo.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'eliminar_prestamo' prestamo.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <!-- Mensaje si no hay préstamos registrados -->
+            <p class="text-dark">No hay préstamos registrados.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

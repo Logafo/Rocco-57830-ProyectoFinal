@@ -1,0 +1,24 @@
+<!-- templates\biblioteca\eliminar_prestamo.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Eliminar Préstamo{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Eliminar Préstamo</h2>
+    <p>¿Estás seguro de que deseas eliminar el siguiente préstamo?</p>
+    <ul>
+        <li><strong>Cédula del Solicitante:</strong> {{ prestamo.cedula_solicitante }}</li>
+        <li><strong>Nombre y Apellido:</strong> {{ prestamo.nombre_apellido }}</li>
+        <li><strong>Libro:</strong> {{ prestamo.libro.nombre }}</li>
+        <li><strong>Fecha de Prestado:</strong> {{ prestamo.fecha_prestado|date:"d/m/Y" }}</li>
+        <li><strong>Fecha de Devolución:</strong> {{ prestamo.fecha_devolucion|date:"d/m/Y" }}</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar Préstamo</button>
+        <a href="{% url 'lista_prestamos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

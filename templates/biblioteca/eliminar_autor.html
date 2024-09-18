@@ -1,0 +1,23 @@
+<!-- templates\biblioteca\eliminar_autor.html -->
+
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Eliminar Autor{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Eliminar Autor</h2>
+    <p>¿Estás seguro de que deseas eliminar al siguiente autor?</p>
+    <ul>
+        <li><strong>Nombre:</strong> {{ autor.nombre }}</li>
+        <li><strong>Fecha de Nacimiento:</strong> {{ autor.fecha_nacimiento|date:"d/m/Y" }}</li>
+        <li><strong>Nacionalidad:</strong> {{ autor.nacionalidad }}</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar Autor</button>
+        <a href="{% url 'lista_autores' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

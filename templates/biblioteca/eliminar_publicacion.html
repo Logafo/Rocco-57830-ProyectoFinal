@@ -1,0 +1,23 @@
+<!-- templates\biblioteca\eliminar_publicacion.html -->
+
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Eliminar Publicación{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Eliminar Publicación</h2>
+    <p>¿Estás seguro de que deseas eliminar la siguiente publicación?</p>
+    <ul>
+        <li><strong>Título:</strong> {{ publicacion.titulo }}</li>
+        <li><strong>Subtítulo:</strong> {{ publicacion.subtitulo }}</li>
+        <li><strong>Cuerpo:</strong> {{ publicacion.cuerpo }}</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar Publicación</button>
+        <a href="{% url 'lista_publicaciones' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!-- templates/biblioteca/lista_categorias.html -->
+
+{% extends 'biblioteca/base.html' %}
+{% load static %}
+{% load form_tags %}  <!-- Cargar los filtros personalizados -->
+
+{% block title %}Lista de Categorías{% endblock %}
+
+{% block content %}
+<div class="card mt-4">
+    <!-- Encabezado de la tarjeta con título y botón para crear una categoría -->
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>Lista de Categorías</h2>
+        <!-- Botón para crear una nueva categoría -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'crear_categoria' %}" class="btn btn-primary">Crear Categoría</a>
+        {% endif %}
+    </div>
+    <!-- Cuerpo de la tarjeta con el formulario de búsqueda y la lista de categorías -->
+    <div class="card-body">
+        <!-- Formulario de búsqueda -->
+        <form method="get" class="form-inline mb-3">
+            <div class="form-group mr-2">
+                {{ form.criterio.label_tag }}
+                {{ form.criterio|add_class:"form-control" }}
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        <div class="list-group">
+            {% for categoria in categorias %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ categoria.nombre }}</span>
+                    <div>
+                        <a href="{% url 'detalle_categoria' categoria.id %}" class="btn btn-info btn-sm mr-2">Ver</a> <!-- Botón Ver -->
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-warning btn-sm mr-2">Editar</a>
+                            <a href="{% url 'eliminar_categoria' categoria.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="list-group-item">No hay categorías disponibles.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

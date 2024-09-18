@@ -1,0 +1,30 @@
+<!-- templates/biblioteca/detalle_mensaje.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Mensaje de {{ mensaje.remitente.username }}{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <!-- Botón para volver al listado de mensajes -->
+    <a href="{% url 'lista_mensajes' %}" class="btn btn-secondary mb-3">Volver a Listado de Mensajes</a>
+    
+    <h2>{{ mensaje.asunto }}</h2>
+    <p><strong>De:</strong> {{ mensaje.remitente.username }}</p>
+    <p><strong>Para:</strong> {{ mensaje.destinatario.username }}</p> <!-- Mostrar el destinatario -->
+    <p><strong>Fecha:</strong> {{ mensaje.fecha_envio|date:"d M Y H:i" }}</p>
+    <div class="mt-3">
+        {{ mensaje.cuerpo|linebreaks }}
+    </div>
+    
+    {% comment %}
+    Verificar si el remitente del mensaje es diferente al usuario actualmente conectado.
+    Si es así, mostrar el botón "Responder".
+    {% endcomment %}
+    {% if mensaje.remitente != user %}
+        <a href="{% url 'crear_mensaje' %}?reply_to={{ mensaje.pk }}" class="btn btn-primary mt-3">Responder</a>
+    {% endif %}
+    
+    <a href="{% url 'eliminar_mensaje' mensaje.pk %}" class="btn btn-danger mt-3">Eliminar</a>
+</div>
+{% endblock %}

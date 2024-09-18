@@ -1,0 +1,20 @@
+<!-- templates/biblioteca/crear_mensaje.html -->
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Crear Mensaje{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <!-- Botón para volver al listado de mensajes -->
+    <a href="{% url 'lista_mensajes' %}" class="btn btn-secondary mb-3">Volver a Lista de Mensajes</a>
+    
+    <h2>Crear Mensaje</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+    </form>
+</div>
+{% endblock %}

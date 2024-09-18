@@ -1,0 +1,24 @@
+<!-- templates\biblioteca\eliminar_libro.html -->
+
+
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Eliminar Libro{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Eliminar Libro</h2>
+    <p>¿Estás seguro de que deseas eliminar el siguiente libro?</p>
+    <ul>
+        <li><strong>Nombre:</strong> {{ libro.nombre }}</li>
+        <li><strong>Autor:</strong> {{ libro.autor.nombre }}</li>
+        <li><strong>Categoría:</strong> {{ libro.categoria.nombre }}</li>
+        <li><strong>Fecha de Publicación:</strong> {{ libro.fecha_publicacion|date:"d/m/Y" }}</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar Libro</button>
+        <a href="{% url 'lista_libros' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
